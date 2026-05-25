@@ -36,3 +36,7 @@ jobs:
     - name: Push Frontend Image
       run: |
         docker push siddhesh013/frontend-app:v1
+
+    - name: Deploy Message
+      run: |
+        echo "Docker images pushed successfully 🚀"
