@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,8 +23,16 @@ jobs:
 
     - name: Build Backend Image
       run: |
-        docker build -t your-dockerhub-username/backend-app:v1 ./backend
+        docker build -t siddhesh013/backend-app:v1 ./backend
 
     - name: Push Backend Image
       run: |
-        docker push your-dockerhub-username/backend-app:v1
+        docker push siddhesh013/backend-app:v1
+
+    - name: Build Frontend Image
+      run: |
+        docker build -t siddhesh013/frontend-app:v1 ./frontend
+
+    - name: Push Frontend Image
+      run: |
+        docker push siddhesh013/frontend-app:v1
