@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend-deployment
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+      containers:
+      - name: backend-container
+        image: backend-app:v3
+        imagePullPolicy: Never
+
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
+        env:
+        - name: APP_MESSAGE
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: APP_MESSAGE
+
+        - name: SECRET_MESSAGE
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: SECRET_MESSAGE
+
+        ports:
+        - containerPort: 5000
+
+        volumeMounts:
+        - mountPath: "/app/data"
+          name: backend-storage
+
+      volumes:
+      - name: backend-storage
+        persistentVolumeClaim:
+          claimName: backend-pvc
